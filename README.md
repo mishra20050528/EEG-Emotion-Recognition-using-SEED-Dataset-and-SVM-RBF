@@ -532,9 +532,9 @@ Outputs:
 
 # 👨‍💻 Author
 
-**Sidh**
+**SIDHANT SWAROOP**
 
-Final Year Engineering Project
+Second Year Engineering Student
 
 ---
 
