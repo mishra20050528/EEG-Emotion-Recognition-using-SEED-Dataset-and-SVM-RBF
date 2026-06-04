@@ -1,15 +1,9 @@
-# ============================================================
-# EMOTION BASED RECOMMENDATION SYSTEM
-# ============================================================
 
 print("\n")
 print("=" * 60)
 print("EMOTION BASED RECOMMENDATION SYSTEM")
 print("=" * 60)
 
-# ------------------------------------------------------------
-# Find dominant predicted emotion
-# ------------------------------------------------------------
 
 unique, counts = np.unique(y_pred, return_counts=True)
 
@@ -26,10 +20,6 @@ emotion_names = {
 dominant_emotion = emotion_names[dominant_class]
 
 print(f"\nDominant Emotion Detected: {dominant_emotion}")
-
-# ------------------------------------------------------------
-# MUSIC RECOMMENDATIONS
-# ------------------------------------------------------------
 
 music_recommendations = {
     "Negative": [
@@ -57,9 +47,6 @@ music_recommendations = {
     ]
 }
 
-# ------------------------------------------------------------
-# MOVIE RECOMMENDATIONS
-# ------------------------------------------------------------
 
 movie_recommendations = {
     "Negative": [
@@ -87,9 +74,6 @@ movie_recommendations = {
     ]
 }
 
-# ------------------------------------------------------------
-# WELLNESS RECOMMENDATIONS
-# ------------------------------------------------------------
 
 wellness_recommendations = {
     "Negative": [
@@ -117,9 +101,6 @@ wellness_recommendations = {
     ]
 }
 
-# ------------------------------------------------------------
-# DISPLAY RECOMMENDATIONS
-# ------------------------------------------------------------
 
 print("\nRecommended Music:")
 for song in music_recommendations[dominant_emotion]:
