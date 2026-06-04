@@ -20,16 +20,7 @@ from sklearn.metrics import (
     classification_report
 )
 
-# =====================================================
-# DATASET PATH
-# =====================================================
-
 DATASET_PATH = r"E:\downloads\ExtractedFeatures_1s"
-
-# =====================================================
-# LABELS
-# =====================================================
-
 seed_labels = np.array([
      1, 0,-1,-1, 0,
      1,-1, 0, 1, 1,
@@ -39,18 +30,12 @@ seed_labels = np.array([
 label_map = {-1:0, 0:1, 1:2}
 seed_labels = np.array([label_map[x] for x in seed_labels])
 
-# =====================================================
-# LOAD DATA
-# =====================================================
-
 X = []
 y = []
-
 files = sorted([
     f for f in os.listdir(DATASET_PATH)
     if f.endswith(".mat") and f != "label.mat"
 ])
-
 print("Loading files...")
 
 for file in files:
@@ -60,21 +45,13 @@ for file in files:
     for trial in range(15):
 
         key = f"de_movingAve{trial+1}"
-
         if key not in mat:
             continue
-
         data = mat[key]
-
-        # Shape: (5, samples, 62)
         data = np.transpose(data,(1,2,0))
-
         samples = data.shape[0]
-
         data = data.reshape(samples,-1)
-
         X.append(data)
-
         labels = np.full(samples,seed_labels[trial])
 
         y.append(labels)
@@ -86,9 +63,6 @@ print("\nDataset Loaded")
 print("X shape:",X.shape)
 print("y shape:",y.shape)
 
-# =====================================================
-# TRAIN TEST SPLIT
-# =====================================================
 
 X_train,X_test,y_train,y_test = train_test_split(
     X,
@@ -98,18 +72,12 @@ X_train,X_test,y_train,y_test = train_test_split(
     stratify=y
 )
 
-# =====================================================
-# SCALING
-# =====================================================
 
 scaler = StandardScaler()
 
 X_train = scaler.fit_transform(X_train)
 X_test = scaler.transform(X_test)
 
-# =====================================================
-# PCA
-# =====================================================
 
 pca = PCA(n_components=0.95)
 
@@ -118,9 +86,6 @@ X_test = pca.transform(X_test)
 
 print("\nFeatures after PCA:",X_train.shape[1])
 
-# =====================================================
-# SVM MODEL
-# =====================================================
 
 svm = SVC(
     kernel='rbf',
@@ -133,15 +98,8 @@ print("\nTraining SVM...")
 
 svm.fit(X_train,y_train)
 
-# =====================================================
-# PREDICTION
-# =====================================================
-
 y_pred = svm.predict(X_test)
 
-# =====================================================
-# METRICS
-# =====================================================
 
 acc = accuracy_score(y_test,y_pred)
 
@@ -172,9 +130,6 @@ print(f"Precision : {prec:.4f}")
 print(f"Recall    : {rec:.4f}")
 print(f"F1 Score  : {f1:.4f}")
 
-# =====================================================
-# CLASSIFICATION REPORT
-# =====================================================
 
 print("\nClassification Report\n")
 
@@ -190,9 +145,6 @@ print(
     )
 )
 
-# =====================================================
-# CONFUSION MATRIX
-# =====================================================
 
 cm = confusion_matrix(y_test,y_pred)
 
@@ -222,9 +174,6 @@ plt.ylabel("True Label")
 plt.tight_layout()
 plt.show()
 
-# =====================================================
-# SAVE MODEL
-# =====================================================
 
 joblib.dump(svm,"seed_svm.pkl")
 joblib.dump(scaler,"seed_scaler.pkl")
